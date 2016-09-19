@@ -1,0 +1,18 @@
+	ADDI $zero, $zero, 1
+	ADDI $at, $at, 2
+	ADDI $v0, $v0, 3
+	ADDI $a0, $a0, 4
+	ADDI $a1, $a1, 5
+	ADDI $a2, $a2, 6
+	ADDI $t0, $t0, 7
+	ADDI $t1, $t1, 8
+	ADDI $t2, $t2, 9
+	ADDI $s0, $s0, 10
+	ADDI $s1, $s1, 11
+	ADDI $s2, s22, 12
+	ADDI $k0, $k0, 13
+	ADDI $sp, $sp, 14
+	ADDI $fp, $fp, 15
+	ADDI $ra, $ra, 16
+	HALT
+	

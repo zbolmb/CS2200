@@ -2051,7 +2051,8 @@ This file is intended to be loaded by Logisim (http://www.cburch.com/logisim/).
       <a name="addrWidth" val="4"/>
       <a name="dataWidth" val="9"/>
       <a name="contents">addr/data: 4 9
-0
+100 80 1a0 178 64 8a 80 1
+160 190
 </a>
     </comp>
     <comp lib="0" loc="(170,300)" name="Tunnel">

@@ -17,7 +17,7 @@ typedef struct block_t {
         Add another variable here to perform the LRU replacement. Look into using a counter
         variable that will keep track of the oldest block in a set
     */
-
+    uint64_t timestamp;
 
 } block;
 
@@ -47,6 +47,7 @@ static uint64_t convert_index_l1(uint64_t l2_tag, uint64_t l2_index, uint64_t C1
 block* L1;
 block* L2;
 config* conf;
+int counter = 0;
 
 /**
  * Subroutine for initializing your cache with the passed in arguments.
@@ -59,12 +60,12 @@ config* conf;
  */
 void cache_init(uint64_t C1, uint64_t C2, uint64_t S, uint64_t B)
 {
-    conf.C1 = C1;
-    conf.C2 = C2;
-    conf.S = S;
-    conf.B = B;
-    L1 = malloc(1 << (C1 - B) * sizeof(*L1));
-    L2 = malloc(1 << (C2 - B) * sizeof(*L2));
+    conf->C1 = C1;
+    conf->C2 = C2;
+    conf->S = S;
+    conf->B = B;
+    L1 = (block*) malloc(1 << (C1 - B) * sizeof(*L1));
+    L2 = (block*) malloc(1 << (C2 - B) * sizeof(*L2));
 }
 
 /**
@@ -84,26 +85,89 @@ void cache_access (char rw, uint64_t address, struct cache_stats_t *stats)
 
             * We will leave it upto you to decide what must be updated and when
      */
-    stats.accesses++;
+    stats->accesses++;
+    if (rw == 'r') {
+        stats->reads++;
+    } else {
+        stats->writes++;
+    }
 
-    int setAsso = conf.C2 - conf.S;
-	int l1index = get_index(address, conf.C1, conf.B, 1);
-    int l2index = get_index(address, conf.C2, conf.B, setAsso);
-    int l1tag = get_tag(address, conf.C1, conf.B, 1);
-    int l2tag = get_tag(address, conf.C2, conf.B, setAsso);
-	int l1block = L1[l1index];
-    int l2block = L2[l2index];
-	if (l1block.valid && l1tag == l1block.tag) {
+    int l1index = get_index(address, conf->C1, conf->B, 1);
+    int l2index = get_index(address, conf->C2, conf->B, conf->S);
+    int l1tag = get_tag(address, conf->C1, conf->B, 1);
+    int l2tag = get_tag(address, conf->C2, conf->B, conf->S);
+    block l1block = L1[l1index];
+    block l2block;
+    //int l2block = L2[l2index];
+    if (l1block.valid && l1block.tag == l1tag) {
+        l1block.timestamp = counter;
+    } else {
+        if (rw == 'r') {
+            stats->l1_read_misses++;
+        } else {
+            stats->l1_write_misses++;
+        }
+        int hit = 0;
+        int i;
+        for (i = 0; i < (1 << conf->S); i++) {
+            l2block = L2[i * l2index];
+            if (l2block.valid && l2block.tag == l2tag) {
+                hit = 1;
+                l2block.timestamp = counter;
+                l1block.tag = l2tag;
+                l1block.dirty = 1;
+                l1block.valid = 1;
+                l1block.timestamp = counter;
+                break;
+            }
+        }
+        //missed
+        if (hit == 0) {
+            if (rw == 'r') {
+                stats->l2_read_misses++;
+            } else {
+                stats->l2_write_misses++;
+            }
+            int leastUsed = counter;
+            block leastUsedBlock = L2[l2index];
+            int replaced = 0;
+            for (i = 0; i < (1 << conf->S); i++) {
+                l2block = L2[i * l2index];
+                if (l2block.valid == 0) {
+                    replaced = 1;
+                    l2block.valid = 1;
+                    l2block.tag = l2tag;
+                    l2block.timestamp = counter;
+                    break;
+                } else {
+                    if (l2block.timestamp < leastUsed) {
+                        leastUsed = l2block.timestamp;
+                        leastUsedBlock = l2block;
+                    }
+                }
+            }
+            if (replaced == 0) {
+                leastUsedBlock.valid = 1;
+                leastUsedBlock.tag = l2tag;
+                leastUsedBlock.timestamp = counter;
+            }
+            l1block.valid = 1;
+            l1block.dirty = 1;
+            l1block.tag = l2tag;
+            l1block.timestamp = counter;
+        }
+    }
+    counter++;
 
     //loop through all sets of L2
     //check valid && tag
-	} else if () { //L2, use convert_tag / index here if writeback l
-        miss++;
-        l1block.dirty = 1;
-	} else {
-    //get values from mem
-        miss++;
-    }
+    //writeback++ only when L2 -> L1
+	// } else if () { //L2, use convert_tag / index here if writeback l
+ //        l1block.dirty = 1;
+ //    } else {
+ //    //get values from mem
+ //        miss++;
+ //    }
 }
 
 /**
@@ -116,8 +180,15 @@ void cache_cleanup (struct cache_stats_t *stats)
         Make sure to free up all the memory you malloc'ed here. To check if you have freed up the
         the memory, run valgrind. For more information, google how to use valgrind.
     */
-
-    /**************** TODO ******************/
+    stats->read_misses = stats->l1_read_misses + stats->l2_read_misses;
+    stats->write_misses = stats->l1_write_misses + stats->l2_write_misses;
+    stats->misses = stats->read_misses + stats->write_misses;
+    stats->l1_miss_rate = (stats->l1_read_misses + stats->l1_write_misses)/stats->accesses;
+    stats->l2_miss_rate = (stats->l2_read_misses + stats->l2_write_misses)/stats->accesses;
+    stats->l2_avg_access_time = stats->l2_access_time + stats->l2_miss_rate + stats->memory_access_time;
+    stats->avg_access_time = stats->l1_access_time + stats->l1_miss_rate + stats->l2_avg_access_time;
+    free(L1);
+    free(L2);
 }
 
 /**
@@ -132,9 +203,8 @@ void cache_cleanup (struct cache_stats_t *stats)
  */
 static uint64_t get_tag(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
 {
-    int t = sizeof(address) - (C / (S * B));
-    int tag = ((1 << t) - 1) << (sizeof(address) - t) | address;
-    return tag;
+    int t = 64 - (C - B - S);
+    return ((1 << t) - 1) << (64 - t) | address;
 }
 
 /**
@@ -149,9 +219,7 @@ static uint64_t get_tag(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
  */
 static uint64_t get_index(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
 {
-    //int i = C / B;
-    //return (((1 << i) - 1) << B) & address;
-    return (((1 << C / B) - 1) << B) | address;
+    return ((1 << C - B - S) - 1) | address;
 }
 
 

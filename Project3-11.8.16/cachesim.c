@@ -48,9 +48,6 @@ block* L1;
 block* L2;
 config* conf;
 
-
-
-
 /**
  * Subroutine for initializing your cache with the passed in arguments.
  * You may initialize any globals you might need in this subroutine
@@ -62,27 +59,12 @@ config* conf;
  */
 void cache_init(uint64_t C1, uint64_t C2, uint64_t S, uint64_t B)
 {
-
-    /*
-        Initialize the caches here. I strongly suggest using arrays for representing
-        meta data stored in the caches. The block_t struct given above maybe useful
-    */
-
-    /**************** TODO ******************/
     conf.C1 = C1;
     conf.C2 = C2;
     conf.S = S;
     conf.B = B;
-
     L1 = malloc(1 << (C1 - B) * sizeof(*L1));
     L2 = malloc(1 << (C2 - B) * sizeof(*L2));
-    int rows = 1 << (C1 - B - C);
-
-
-
-
-
-
 }
 
 /**
@@ -102,20 +84,26 @@ void cache_access (char rw, uint64_t address, struct cache_stats_t *stats)
 
             * We will leave it upto you to decide what must be updated and when
      */
+    stats.accesses++;
 
-    /**************** TODO ******************/
-	int blockIndex = address % (sizeof(L1) / sizeof(block));
-	int blockTag = L1[cacheMem].tag;
-	int b = conf.B;
-	int n = conf.C1 / conf.B;
-	int t = sizeof(address) - (b + n);
-	int tag = ((1 << t) - 1) & address;
-	if (blockTag == tag) {
+    int setAsso = conf.C2 - conf.S;
+	int l1index = get_index(address, conf.C1, conf.B, 1);
+    int l2index = get_index(address, conf.C2, conf.B, setAsso);
+    int l1tag = get_tag(address, conf.C1, conf.B, 1);
+    int l2tag = get_tag(address, conf.C2, conf.B, setAsso);
+	int l1block = L1[l1index];
+    int l2block = L2[l2index];
+	if (l1block.valid && l1tag == l1block.tag) {
 
-	} else if () { //L2
-
-	} //get values from mem
-
+    //loop through all sets of L2
+    //check valid && tag
+	} else if () { //L2, use convert_tag / index here if writeback l
+        miss++;
+        l1block.dirty = 1;
+	} else {
+    //get values from mem
+        miss++;
+    }
 }
 
 /**
@@ -144,8 +132,9 @@ void cache_cleanup (struct cache_stats_t *stats)
  */
 static uint64_t get_tag(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
 {
-    /**************** TODO ******************/
-    return 0;
+    int t = sizeof(address) - (C / (S * B));
+    int tag = ((1 << t) - 1) << (sizeof(address) - t) | address;
+    return tag;
 }
 
 /**
@@ -160,8 +149,9 @@ static uint64_t get_tag(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
  */
 static uint64_t get_index(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
 {
-    /**************** TODO ******************/
-    return 0;
+    //int i = C / B;
+    //return (((1 << i) - 1) << B) & address;
+    return (((1 << C / B) - 1) << B) | address;
 }
 
 

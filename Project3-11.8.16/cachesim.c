@@ -44,8 +44,9 @@ static uint64_t convert_tag_l1(uint64_t l2_tag, uint64_t l2_index, uint64_t C1, 
 static uint64_t convert_index_l1(uint64_t l2_tag, uint64_t l2_index, uint64_t C1, uint64_t C2, uint64_t B, uint64_t S);
 
 /****** You may add Globals and other function headers that you may need below this line ******/
-int* L1;
-int* L2;
+block* L1;
+block* L2;
+config* conf;
 
 
 
@@ -68,13 +69,19 @@ void cache_init(uint64_t C1, uint64_t C2, uint64_t S, uint64_t B)
     */
 
     /**************** TODO ******************/
-    struct config_t config;
-    config.C1 = C1;
-    config.C2 = C2;
-    config.S = S;
-    config.B = B;
+    conf.C1 = C1;
+    conf.C2 = C2;
+    conf.S = S;
+    conf.B = B;
 
-    block_t* blocks;
+    L1 = malloc(1 << (C1 - B) * sizeof(*L1));
+    L2 = malloc(1 << (C2 - B) * sizeof(*L2));
+    int rows = 1 << (C1 - B - C);
+
+
+
+
+
 
 }
 
@@ -97,7 +104,17 @@ void cache_access (char rw, uint64_t address, struct cache_stats_t *stats)
      */
 
     /**************** TODO ******************/
+	int blockIndex = address % (sizeof(L1) / sizeof(block));
+	int blockTag = L1[cacheMem].tag;
+	int b = conf.B;
+	int n = conf.C1 / conf.B;
+	int t = sizeof(address) - (b + n);
+	int tag = ((1 << t) - 1) & address;
+	if (blockTag == tag) {
 
+	} else if () { //L2
+
+	} //get values from mem
 
 }
 

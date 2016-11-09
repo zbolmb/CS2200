@@ -1,0 +1,573 @@
+Default Configuration
+
+--astar.trace--
+Cache Settings
+C1: 10
+C2: 15
+B: 5
+S: 3
+
+Cache Statistics
+Accesses: 501468
+Reads: 289766
+Read misses: 65011
+Writes: 211702
+Write misses: 91430
+Misses: 156441
+Writebacks: 38279
+L1 read misses: 53866
+L1 write misses: 52609
+L2 read misses: 11145
+L2 write misses: 38821
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.212327
+L2 Miss rate: 0.469274
+Miss rate: 0.311966
+L2 average access time: 56.927448
+Average access time (AAT): 14.087212
+
+--bzip2.trace--
+Cache Settings
+C1: 10
+C2: 15
+B: 5
+S: 3
+
+Cache Statistics
+Accesses: 544514
+Reads: 369344
+Read misses: 27391
+Writes: 175170
+Write misses: 14381
+Misses: 41772
+Writebacks: 298
+L1 read misses: 26540
+L1 write misses: 13564
+L2 read misses: 851
+L2 write misses: 817
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.073651
+L2 Miss rate: 0.041592
+Miss rate: 0.076714
+L2 average access time: 14.159186
+Average access time (AAT): 3.042838
+
+--mcf.trace--
+Cache Settings
+C1: 10
+C2: 15
+B: 5
+S: 3
+
+Cache Statistics
+Accesses: 507700
+Reads: 280182
+Read misses: 53240
+Writes: 227518
+Write misses: 49659
+Misses: 102899
+Writebacks: 7988
+L1 read misses: 51698
+L1 write misses: 41938
+L2 read misses: 1542
+L2 write misses: 7721
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.184432
+L2 Miss rate: 0.098926
+Miss rate: 0.202677
+L2 average access time: 19.892563
+Average access time (AAT): 5.668820
+
+--perlbench.trace--
+Cache Settings
+C1: 10
+C2: 15
+B: 5
+S: 3
+
+Cache Statistics
+Accesses: 507441
+Reads: 302052
+Read misses: 110616
+Writes: 205389
+Write misses: 49133
+Misses: 159749
+Writebacks: 10103
+L1 read misses: 96592
+L1 write misses: 41154
+L2 read misses: 14024
+L2 write misses: 7979
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.271452
+L2 Miss rate: 0.159736
+Miss rate: 0.314813
+L2 average access time: 25.973604
+Average access time (AAT): 9.050593
+
+Direct Mapped Cache
+C = 10, S = 0
+
+--astar.trace--
+Cache Settings
+C1: 10
+C2: 10
+B: 5
+S: 0
+
+Cache Statistics
+Accesses: 501468
+Reads: 289766
+Read misses: 107732
+Writes: 211702
+Write misses: 105218
+Misses: 212950
+Writebacks: 56933
+L1 read misses: 53866
+L1 write misses: 52609
+L2 read misses: 53866
+L2 write misses: 52609
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.212327
+L2 Miss rate: 1.000000
+Miss rate: 0.424653
+L2 average access time: 110.000000
+Average access time (AAT): 25.355927
+
+--bzip2.trace--
+Cache Settings
+C1: 10
+C2: 10
+B: 5
+S: 0
+
+Cache Statistics
+Accesses: 544514
+Reads: 369344
+Read misses: 53080
+Writes: 175170
+Write misses: 27128
+Misses: 80208
+Writebacks: 21729
+L1 read misses: 26540
+L1 write misses: 13564
+L2 read misses: 26540
+L2 write misses: 13564
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.073651
+L2 Miss rate: 1.000000
+Miss rate: 0.147302
+L2 average access time: 110.000000
+Average access time (AAT): 10.101610
+
+--mcf.trace--
+Cache Settings
+C1: 10
+C2: 10
+B: 5
+S: 0
+
+Cache Statistics
+Accesses: 507700
+Reads: 280182
+Read misses: 103396
+Writes: 227518
+Write misses: 83876
+Misses: 187272
+Writebacks: 55069
+L1 read misses: 51698
+L1 write misses: 41938
+L2 read misses: 51698
+L2 write misses: 41938
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.184432
+L2 Miss rate: 1.000000
+Miss rate: 0.368864
+L2 average access time: 110.000000
+Average access time (AAT): 22.287493
+
+--perlbench.trace--
+Cache Settings
+C1: 10
+C2: 10
+B: 5
+S: 0
+
+Cache Statistics
+Accesses: 507441
+Reads: 302052
+Read misses: 193184
+Writes: 205389
+Write misses: 82308
+Misses: 275492
+Writebacks: 64379
+L1 read misses: 96592
+L1 write misses: 41154
+L2 read misses: 96592
+L2 write misses: 41154
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.271452
+L2 Miss rate: 1.000000
+Miss rate: 0.542904
+L2 average access time: 110.000000
+Average access time (AAT): 31.859747
+
+4 Way Associative
+C = 12, S = 2, B = 4
+
+--astar.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 501468
+Reads: 289766
+Read misses: 82009
+Writes: 211702
+Write misses: 168760
+Misses: 250769
+Writebacks: 77393
+L1 read misses: 60611
+L1 write misses: 91643
+L2 read misses: 21398
+L2 write misses: 77117
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.303617
+L2 Miss rate: 0.647044
+Miss rate: 0.500070
+L2 average access time: 74.704376
+Average access time (AAT): 24.681487
+
+--bzip2.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 544514
+Reads: 369344
+Read misses: 25473
+Writes: 175170
+Write misses: 15422
+Misses: 40895
+Writebacks: 2970
+L1 read misses: 22032
+L1 write misses: 12364
+L2 read misses: 3441
+L2 write misses: 3058
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.063168
+L2 Miss rate: 0.188946
+Miss rate: 0.075104
+L2 average access time: 28.894639
+Average access time (AAT): 3.825224
+
+--mcf.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 507700
+Reads: 280182
+Read misses: 52236
+Writes: 227518
+Write misses: 75097
+Misses: 127333
+Writebacks: 15893
+L1 read misses: 49018
+L1 write misses: 61087
+L2 read misses: 3218
+L2 write misses: 14010
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.216870
+L2 Miss rate: 0.156469
+Miss rate: 0.250804
+L2 average access time: 25.646883
+Average access time (AAT): 7.562045
+
+--perlbench.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 507441
+Reads: 302052
+Read misses: 131826
+Writes: 205389
+Write misses: 72634
+Misses: 204460
+Writebacks: 30120
+L1 read misses: 92676
+L1 write misses: 49223
+L2 read misses: 39150
+L2 write misses: 23411
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.279636
+L2 Miss rate: 0.440884
+Miss rate: 0.402924
+L2 average access time: 54.088401
+Average access time (AAT): 17.125088
+
+4 Way Associative - Bigger Caches
+C = 12 c = 16, S = 2, B = 4
+
+--astar.trace--
+Cache Settings
+C1: 12
+C2: 16
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 501468
+Reads: 289766
+Read misses: 47329
+Writes: 211702
+Write misses: 155882
+Misses: 203211
+Writebacks: 73315
+L1 read misses: 29147
+L1 write misses: 79103
+L2 read misses: 18182
+L2 write misses: 76779
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.215866
+L2 Miss rate: 0.877238
+Miss rate: 0.405232
+L2 average access time: 97.723788
+Average access time (AAT): 23.095264
+
+--bzip2.trace--
+Cache Settings
+C1: 12
+C2: 16
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 544514
+Reads: 369344
+Read misses: 9819
+Writes: 175170
+Write misses: 8175
+Misses: 17994
+Writebacks: 12
+L1 read misses: 8126
+L1 write misses: 6546
+L2 read misses: 1693
+L2 write misses: 1629
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.026945
+L2 Miss rate: 0.226418
+Miss rate: 0.033046
+L2 average access time: 32.641767
+Average access time (AAT): 2.879537
+
+--mcf.trace--
+Cache Settings
+C1: 12
+C2: 16
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 507700
+Reads: 280182
+Read misses: 28234
+Writes: 227518
+Write misses: 41486
+Misses: 69720
+Writebacks: 11186
+L1 read misses: 25188
+L1 write misses: 27762
+L2 read misses: 3046
+L2 write misses: 13724
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.104294
+L2 Miss rate: 0.316714
+Miss rate: 0.137325
+L2 average access time: 41.671388
+Average access time (AAT): 6.346071
+
+--perlbench.trace--
+Cache Settings
+C1: 12
+C2: 16
+B: 4
+S: 2
+
+Cache Statistics
+Accesses: 507441
+Reads: 302052
+Read misses: 64808
+Writes: 205389
+Write misses: 39654
+Misses: 104462
+Writebacks: 6700
+L1 read misses: 55476
+L1 write misses: 32467
+L2 read misses: 9332
+L2 write misses: 7187
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.173307
+L2 Miss rate: 0.187838
+Miss rate: 0.205860
+L2 average access time: 28.783758
+Average access time (AAT): 6.988422
+
+Fully Associative
+C = 12, S = 8, B = 4
+
+--astar.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 8
+
+Cache Statistics
+Accesses: 501468
+Reads: 289766
+Read misses: 142730
+Writes: 211702
+Write misses: 199887
+Misses: 342617
+Writebacks: 77365
+L1 read misses: 121959
+L1 write misses: 122819
+L2 read misses: 20771
+L2 write misses: 77068
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.488123
+L2 Miss rate: 0.399705
+Miss rate: 0.683228
+L2 average access time: 49.970504
+Average access time (AAT): 26.391746
+
+--bzip2.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 8
+
+Cache Statistics
+Accesses: 544514
+Reads: 369344
+Read misses: 182371
+Writes: 175170
+Write misses: 82984
+Misses: 265355
+Writebacks: 2993
+L1 read misses: 178930
+L1 write misses: 79926
+L2 read misses: 3441
+L2 write misses: 3058
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.475389
+L2 Miss rate: 0.025107
+Miss rate: 0.487324
+L2 average access time: 12.510662
+Average access time (AAT): 7.947432
+
+--mcf.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 8
+
+Cache Statistics
+Accesses: 507700
+Reads: 280182
+Read misses: 162921
+Writes: 227518
+Write misses: 152187
+Misses: 315108
+Writebacks: 15875
+L1 read misses: 159875
+L1 write misses: 138463
+L2 read misses: 3046
+L2 write misses: 13724
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.587627
+L2 Miss rate: 0.056211
+Miss rate: 0.620658
+L2 average access time: 15.621141
+Average access time (AAT): 11.179397
+
+--perlbench.trace--
+Cache Settings
+C1: 10
+C2: 12
+B: 4
+S: 8
+
+Cache Statistics
+Accesses: 507441
+Reads: 302052
+Read misses: 208049
+Writes: 205389
+Write misses: 130578
+Misses: 338627
+Writebacks: 30081
+L1 read misses: 171154
+L1 write misses: 107586
+L2 read misses: 36895
+L2 write misses: 22992
+L1 access time: 2
+L2 access time: 10
+Memory access time: 100
+L1 Miss rate: 0.549305
+L2 Miss rate: 0.214849
+Miss rate: 0.667323
+L2 average access time: 31.484896
+Average access time (AAT): 19.294819

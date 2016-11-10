@@ -30,7 +30,7 @@ int main(int argc, char* argv[]) {
     uint64_t s = DEFAULT_S;
     FILE* fin  = stdin;
 
-    /* Read arguments */ 
+    /* Read arguments */
     while(-1 != (opt = getopt(argc, argv, "C:c:b:s:i:h"))) {
         switch(opt) {
             case 'C':
@@ -72,13 +72,14 @@ int main(int argc, char* argv[]) {
     stats.l2_access_time = 10;
     stats.memory_access_time = 100;
 
-    /* Begin reading the file */ 
+    /* Begin reading the file */
     char rw;
     uint64_t address;
-    while (!feof(fin)) { 
-        int ret = fscanf(fin, "%c %" PRIx64 "\n", &rw, &address); 
+    while (!feof(fin)) {
+        printf("loop");
+        int ret = fscanf(fin, "%c %" PRIx64 "\n", &rw, &address);
         if(ret == 2) {
-            cache_access(rw, address, &stats); 
+            cache_access(rw, address, &stats);
         }
     }
 

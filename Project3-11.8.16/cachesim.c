@@ -1,4 +1,7 @@
 #include "cachesim.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -60,6 +63,7 @@ int counter = 0;
  */
 void cache_init(uint64_t C1, uint64_t C2, uint64_t S, uint64_t B)
 {
+    conf = (config*) malloc(sizeof(*conf));
     conf->C1 = C1;
     conf->C2 = C2;
     conf->S = S;
@@ -96,6 +100,7 @@ void cache_access (char rw, uint64_t address, struct cache_stats_t *stats)
     int l2index = get_index(address, conf->C2, conf->B, conf->S);
     int l1tag = get_tag(address, conf->C1, conf->B, 1);
     int l2tag = get_tag(address, conf->C2, conf->B, conf->S);
+    printf(l1index);
     block l1block = L1[l1index];
     block l2block;
     //int l2block = L2[l2index];
@@ -219,6 +224,8 @@ static uint64_t get_tag(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
  */
 static uint64_t get_index(uint64_t address, uint64_t C, uint64_t B, uint64_t S)
 {
+    printf("get index");
+    //printf(((1 << C - B - S) - 1) | address);
     return ((1 << C - B - S) - 1) | address;
 }
 

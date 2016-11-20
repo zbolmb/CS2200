@@ -1,0 +1,84 @@
+
+----astar_vm.trace----
+VM settings
+Page Size: 12
+Virual Address Size: 20
+Physical Address Size: 18
+TLB size: 3
+Debug Flag: 0
+
+Virtual Memory Statistics
+Accesses: 500875
+Reads: 289418
+Writes: 211457
+Translation Faults: 9699
+Page Faults: 800
+Writes to Disk: 697
+TLB Read Time: 2
+Memory Read Time: 100
+Disk Read Time: 100000
+Average Access Time: 541.969853
+
+
+----bzip2_vm.trace----
+VM settings
+Page Size: 12
+Virual Address Size: 20
+Physical Address Size: 18
+TLB size: 3
+Debug Flag: 0
+
+Virtual Memory Statistics
+Accesses: 544065
+Reads: 369039
+Writes: 175026
+Translation Faults: 10577
+Page Faults: 800
+Writes to Disk: 728
+TLB Read Time: 2
+Memory Read Time: 100
+Disk Read Time: 100000
+Average Access Time: 518.600406
+
+
+----mcf_vm.trace----
+VM settings
+Page Size: 12
+Virual Address Size: 20
+Physical Address Size: 18
+TLB size: 3
+Debug Flag: 0
+
+Virtual Memory Statistics
+Accesses: 507189
+Reads: 279898
+Writes: 227291
+Translation Faults: 9938
+Page Faults: 800
+Writes to Disk: 731
+TLB Read Time: 2
+Memory Read Time: 100
+Disk Read Time: 100000
+Average Access Time: 549.947018
+
+
+----perlbench_vm.trace----
+VM settings
+Page Size: 12
+Virual Address Size: 20
+Physical Address Size: 18
+TLB size: 3
+Debug Flag: 0
+
+Virtual Memory Statistics
+Accesses: 507061
+Reads: 301783
+Writes: 205278
+Translation Faults: 9745
+Page Faults: 800
+Writes to Disk: 729
+TLB Read Time: 2
+Memory Read Time: 100
+Disk Read Time: 100000
+Average Access Time: 549.233173
+

@@ -27,6 +27,12 @@ uint64_t page_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
 	// } else {
 	// 	stats->writes++;
 	// }
+	// int k;
+	// pte_t *cur1;
+	// for (k = 0; k < (1 << 6); k++) {
+	// 	cur1 = current_pagetable + k;
+	// 	printf("pfn %"PRIx64"\n", cur1->pfn);
+	// }
 
 	pte_t *cur = current_pagetable + vpn;
 	if (cur->valid) {

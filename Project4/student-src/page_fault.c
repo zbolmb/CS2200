@@ -34,18 +34,21 @@ uint64_t page_fault_handler(uint64_t vpn, char rw, stats_t *stats)
 
 
 	/********* TODO ************/
-	rlt[victim_pfn].valid = 1;
-	current_pagetable[rlt[victim_pfn].vpn].valid = 0;
-	if (rw == 'w' && current_pagetable[rlt[victim_pfn].vpn].dirty == 1) {
+	rlte_t *victim = rlt + victim_pfn;
+	pte_t *newPage = current_pagetable + vpn;
+	victim->valid = 1;
+	(current_pagetable + victim->vpn)->valid = 0;
+	if (rw == 'w' && (current_pagetable + victim->vpn)->dirty == 1) {
 		stats->writes_to_disk++;
 	}
-	rlt[victim_pfn].vpn = vpn;
-	current_pagetable[vpn].valid = 1;
-	current_pagetable[vpn].pfn = victim_pfn;
+	victim->vpn = vpn;
+	newPage->valid = 1;
+	newPage->frequency = 0;
+	newPage->pfn = victim_pfn;
 	if (rw == 'w') {
-		current_pagetable[vpn].dirty = 1;
+		newPage->dirty = 1;
 	}
-	rlt[victim_pfn].task_struct = current_process;
+	victim->task_struct = current_process;
 
 
 
@@ -73,18 +76,19 @@ static uint64_t find_free_frame(stats_t *stats)
 
 	/********* TODO ************/
 	int i;
-	for (i = 0; i < sizeof(rlt) / sizeof(*rlt); i++) {
-		if (rlt[i].valid == 0) {
+	rlte_t *curFrame;
+	for (i = 0; i < rlt_size; i++) {
+		curFrame = rlt + i;
+		if (curFrame->valid == 0) {
 			return i;
 		}
 	}
-	int min = current_pagetable[rlt[0].vpn].frequency;
+	int min = current_pagetable->frequency;
 	int minFrame = 0;
 	int curFreq;
-	rlte_t curFrame;
-	for (i = 0; i < sizeof(rlt) / sizeof(*rlt); i++) {
-		curFrame = rlt[i];
-		curFreq = current_pagetable[curFrame.vpn].frequency;
+	for (i = 0; i < rlt_size; i++) {
+		curFrame = rlt + i;
+		curFreq = (current_pagetable + curFrame->vpn)->frequency;
 		if (curFreq < min) {
 			min = curFreq;
 			minFrame = i;

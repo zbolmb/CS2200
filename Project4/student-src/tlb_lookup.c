@@ -23,6 +23,14 @@ uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
 
 
     /********* TODO ************/
+    // int k;
+    // tlbe_t *cur1;
+    // for (k = 0; k < tlb_size; k++) {
+    //     cur1 = tlb + k;
+    //         printf("tlb slot %"PRIx64" %"PRIx64" %"PRIx64"\n", cur1->vpn, cur1->pfn, current_pagetable[cur1->vpn].frequency);
+    // }
+    // printf("\n");
+
     stats->accesses++;
     if (rw == 'r') {
         stats->reads++;
@@ -35,18 +43,24 @@ uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
         cur = tlb + i;
         if (cur->valid == 1 && cur->vpn == vpn) {
             cur->used = 1;
-            current_pagetable[vpn].frequency++;
+            (current_pagetable + vpn)->frequency++;
             if (rw == 'w') {
                 cur->dirty = 1;
             }
-            return cur->pfn << sizeof(offset) | offset;
+            // printf("pfn %"PRIx64"\n", cur->pfn);
+            // printf("off %"PRIx64"\n", offset);
+            // uint64_t temp2 = (cur->pfn) << (page_size);
+            // uint64_t temp = (cur->pfn << (page_size)) | offset;
+            // printf("temp2 %"PRIx64"\n", temp2);
+            // printf("temp %"PRIx64"\n", temp);
+            return (cur->pfn << page_size) | offset;
         }
     }
 
 
     // The below function is called if it is a TLB miss
 	/* DO NOT MODIFY */
-	uint64_t pfn = page_lookup(vpn, offset, rw, stats);
+    uint64_t pfn = page_lookup(vpn, offset, rw, stats);
 	/*****************/
 
     // (1) Update the relevant stats
@@ -71,28 +85,32 @@ uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
             if (rw == 'w') {
                 cur->dirty = 1;
             }
-            current_pagetable[vpn].frequency++;
+            (current_pagetable + vpn)->frequency++;
+            return (pfn << page_size) | offset;
         }
     }
-    for (i = 0; i < tlb_size; i++) {
-        cur = tlb + i;
-        if (cur->used == 0) {
-            cur->used = 1;
-            cur->vpn = vpn;
-            cur->pfn = pfn;
-            cur->valid = 1;
-            if (rw == 'w') {
-                cur->dirty = 1;
+    //no invalid
+    int j;
+    for (j = 0; j < 2; j++) {
+        for (i = 0; i < tlb_size; i++) {
+            cur = tlb + i;
+            if (cur->used == 0) {
+                cur->used = 1;
+                cur->vpn = vpn;
+                cur->pfn = pfn;
+                cur->valid = 1;
+                if (rw == 'w') {
+                    cur->dirty = 1;
+                }
+                (current_pagetable + vpn)->frequency++;
+                return (pfn << page_size) | offset;
+            } else {
+                cur->used = 0;
             }
-            current_pagetable[vpn].frequency++;
-        } else {
-            cur->used = 0;
         }
     }
-
-
 
     /******* TODO *************/
     // Make sure to return the entire address here, this is just a place holder
-    return pfn << sizeof(offset) | offset;
+    return pfn << page_size | offset;
 }

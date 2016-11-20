@@ -2,7 +2,7 @@
 /**
  * This function checks the page table of the current process to find
  * the VPN to PFN mapping.
- * 
+ *
  * @param vpn The virtual page number that has to be translated
  * @param offset The page offset of the address that is being translated
  * @param rw Specifies if access is read or a write
@@ -21,6 +21,28 @@ uint64_t page_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
 	// (5) Make sure to increment the frequency count of the VPN that has been accessed
 
 	/********* TODO ************/
+	// stats->accesses++;
+	// if (rw == 'r') {
+	// 	stats->reads++;
+	// } else {
+	// 	stats->writes++;
+	// }
 
-	return pfn;
+	pte_t *cur = current_pagetable + vpn;
+	if (cur->valid) {
+		cur->frequency++;
+		if (rw == 'w') {
+			cur->dirty = 1;
+		}
+		return cur->pfn;
+	} else {
+		stats->page_faults++;
+		if (rw == 'r') {
+			stats->reads_from_disk++;
+		} else {
+			stats->writes_to_disk++;
+		}
+		pfn = page_fault_handler(vpn, rw, stats);
+		return pfn;
+	}
 }

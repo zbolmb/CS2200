@@ -12,7 +12,7 @@
  */
 uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
 {
-    
+
     // (1) Look for the pfn in the TLB.
     // If you find it here
     // (2) update the frequency count of the page table entry using the
@@ -20,11 +20,29 @@ uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
     // (3) Mark the TLB entry as used - for clock sweep
     // (4) Make sure to mark the entry dirty in the TLB if it is a write access
     // (5) return the PFN you just found in the TLB
-    
+
 
     /********* TODO ************/
+    stats->accesses++;
+    if (rw == 'r') {
+        stats->reads++;
+    } else {
+        stats->writes++;
+    }
+    int i;
+    tlbe_t *cur;
+    for (i = 0; i < tlb_size; i++) {
+        cur = tlb + i;
+        if (cur->valid == 1 && cur->vpn == vpn) {
+            cur->used = 1;
+            current_pagetable[vpn].frequency++;
+            if (rw == 'w') {
+                cur->dirty = 1;
+            }
+            return cur->pfn << sizeof(offset) | offset;
+        }
+    }
 
-    
 
     // The below function is called if it is a TLB miss
 	/* DO NOT MODIFY */
@@ -42,11 +60,39 @@ uint64_t tlb_lookup(uint64_t vpn, uint64_t offset, char rw, stats_t *stats)
 
 
     /********* TODO ************/
-
+    stats->translation_faults++;
+    for (i = 0; i < tlb_size; i++) {
+        cur = tlb + i;
+        if (cur->valid == 0) {
+            cur->used = 1;
+            cur->vpn = vpn;
+            cur->pfn = pfn;
+            cur->valid = 1;
+            if (rw == 'w') {
+                cur->dirty = 1;
+            }
+            current_pagetable[vpn].frequency++;
+        }
+    }
+    for (i = 0; i < tlb_size; i++) {
+        cur = tlb + i;
+        if (cur->used == 0) {
+            cur->used = 1;
+            cur->vpn = vpn;
+            cur->pfn = pfn;
+            cur->valid = 1;
+            if (rw == 'w') {
+                cur->dirty = 1;
+            }
+            current_pagetable[vpn].frequency++;
+        } else {
+            cur->used = 0;
+        }
+    }
 
 
 
     /******* TODO *************/
     // Make sure to return the entire address here, this is just a place holder
-    return pfn;
+    return pfn << sizeof(offset) | offset;
 }
